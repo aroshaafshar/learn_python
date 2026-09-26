@@ -1,0 +1,18 @@
+{
+    "1001": {
+        "name": "ali",
+        "age": 20,
+        "grades": {
+            "math": 20.0,
+            "biology": 16.5,
+            "chemistry": 19.0
+        }
+    },
+    "1002": {
+        "name": "sara",
+        "age": 22,
+        "grades": {
+            "math": 15.0
+        }
+    }
+}
