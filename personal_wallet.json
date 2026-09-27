@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "amount": 50000000,
+        "type": "income",
+        "category": "salary",
+        "description": "june salary",
+        "date": "2026-09-27"
+    },
+    {
+        "id": 2,
+        "amount": 350000,
+        "type": "expense",
+        "category": "food",
+        "description": "lunch",
+        "date": "2026-09-27"
+    }
+]
