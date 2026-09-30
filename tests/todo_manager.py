@@ -58,3 +58,47 @@ All tasks must be stored in a file.
 Closing and reopening the application must preserve all tasks
 and their current statuses.
 """
+import json
+
+FILENAME = "todo.json"
+
+try:
+     with open(FILENAME, "r") as file:
+         tasks = json.load(file)
+except FileNotFoundError:
+     tasks = []
+
+def save_tasks():
+     with open(FILENAME, "w") as file:
+         json.dump(tasks, file, indent=4)
+
+def add_task():
+    title = input("Title: ")
+    description = input("Description: ")
+
+    while True:
+        priority = input("Priority: ")
+
+        if priority == "High" or priority == "Medium" or priority == "Low":
+            break
+        else:
+            print("Invalid priority!")
+
+    status = "Pending"
+
+    if tasks:
+        task_id = max(task["id"] for task in tasks) + 1
+    else:
+        task_id = 1
+
+    new_task = Task(
+        task_id,
+        title,
+        description,
+        priority,
+        status
+    )
+
+    tasks.append(new_task.__dict__)
+    save_tasks()
+
