@@ -136,7 +136,7 @@ while True:
         for transaction in transactions:
            if transaction["id"] == transaction_id:
               transactions.remove(transaction)
-              save_transactions
+              save_transactions()
               print("transaction deleted successfully.")
 
               found = True

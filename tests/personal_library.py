@@ -83,7 +83,7 @@ while True:
          for book in books:
              if book["id"] == book_id:
                  if book["borrowed"]:
-                      print("book already borrowed.")
+                      print("book is already borrowed.")
                  else:
                       book["borrowed"] = True
                       library.save_books()
@@ -128,7 +128,7 @@ while True:
                  found = True
          if not found:
              print("no avaible books.")
-             
+
      elif choice == "9":
           print("Goodbye!see you later!")
           break
