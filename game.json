@@ -1,0 +1,10 @@
+{
+    "name": "Ali",
+    "level": 1,
+    "experience": 0,
+    "health": 100,
+    "gold": 50,
+    "inventory": [
+        "sword"
+    ]
+}
