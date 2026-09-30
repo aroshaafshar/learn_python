@@ -53,3 +53,20 @@ Persistence requirement:
 
 Products, stock and order history must survive program restarts.
 """
+import json
+
+PRODUCTS_FILE = "product.json"
+ORDERS_FILE = "orders.json"
+
+class Product:
+     def __init__(self, product_id, name, price, stock):
+         self.product_id = product_id
+         self.name = name
+
+     def to_dict(self):
+         return {
+             "product_id": self.product_id,
+             "name": self.name,
+             "price": self.price,
+             "stock": self.stock
+         }
