@@ -1,74 +1,156 @@
-# ============================================================
-# PROJECT 6 - GAME SAVE SYSTEM
-# ============================================================
+import json
+import random
 
-"""
-Build a small text-based game with a persistent player state.
+FILENAME = "game.json"
 
-The player should have at least:
+class Player:
+    def __init__(self, name):
+         self.name = name
+         self.level = 1
+         self.experience = 0
+         self.health = 100
+         self.gold = 100
+         self.inventory = []
 
-- Name
-- Level
-- Experience
-- Health
-- Gold
-- Inventory
+    def to_dict(self):
+         return {
+             "name": self.name,
+             "level": self.level,
+             "experience": self.experience,
+             "health": self.health,
+             "gold": self.gold,
+             "inventory": self.inventory
+        }
+try:
+     with open(FILENAME, "r") as file:
+         data = json.load(file)
+     player = Player(data["name"])
+     player.level = data["level"]
+     player.experience = data["experience"]
+     player.health = data["health"]
+     player.gold = data["gold"]
+     player.inventory = data["inventory"]
 
-Example:
+except FileNotFoundError:
+     name = input("enter your name: ")
+     player = Player(name)
 
-    Player: Ali
-    Level: 4
-    XP: 350
-    Health: 80
-    Gold: 1,200
+def save_game():
+     with open(FILENAME, "w") as file:
+          json.dump(player.to_dict(), file, indent=4)
 
-    Inventory:
-        Sword
-        Shield
-        Potion
+def expelore():
+     xp = random.randint(10, 30)
+     gold = random.randint(5, 20)
+     player.experience += xp
+     player.gold += gold
+     print(f"You gained {xp} XP anf found {gold} gold.")
+     save_game()
 
-Menu:
+def check_level_up(self):
+     while self.experience >= self.level * 100:
+          self.level += 1
+          self.health = 100
+          print(f"Congratulations! Ypu reached level {self.level}!")
 
-1. Explore
-2. Fight
-3. Buy Item
-4. Use Potion
-5. Show Character
-6. Exit
+def fight():
+     enemy_health = random.randint(30, 60)
+     player_attack = random.randint(20, 50)
+     print(f"Enemy health: {enemy_health}")
+     print(f"Your attack: {player_attack}")
 
-The exact game rules are up to you.
+     if player_attack >= enemy_health:
+         xp = random.randint(20, 40)
+         gold = random.randint(10, 30)
+         player.experience += xp
+         player.gold += gold
+         print(f"You won!")
+         print(f"You gained {xp} XP and {gold} gold.")
+         player.check_level_up
+     else:
+         damage = random.randint(10, 25)
+         player.health -= damage
+         print(f"You lost and took {damage} damage.")
+         print(f"Your hralth is now {player.health}.")
+         save_game()
 
-However, actions should change the player's state.
+ITEMS= {
+     "sword": 50,
+     "shield": 40,
+     "potion": 20
+}
+def buy_item():
+     print("\nItems:")
+     for item, price in ITEMS.items():
+         print(f"{item}: {price} gold")
+         item = input("enter item name: ")
+     if item not in ITEMS:
+             print("Item not found.")
+             return
 
-For example:
+     price = ITEMS[item]
+     if player.gold < price:
+             print("Not enough gold.")
+             return
 
-- Fighting can increase experience.
-- Experience can increase the player's level.
-- Fighting can change health.
-- Winning can give gold.
-- Buying an item decreases gold.
-- Using an item changes the player's inventory.
-- Using a potion can increase health.
+     player.gold -= price
+     player.inventory.append(item)
+     print(f"You bought {item}.")
+     save_game()
 
-Persistence requirement:
+def use_potion():
+     if "potion" not in player.inventory:
+         print("You don't have a potion.")
+         return
 
-The complete game state must be saved.
+     if player.health == 100:
+         print("Your health is already full.")
+         return
 
-Example:
+     player.health = min(100, player.health + 30)
+     player.inventory.remove("potion")
+     print(f"Your health is now {player.health}.")
+     save_game
 
-Run #1:
+def show_character():
+     print("\n---character---")
+     print(f"player: {player.name}")
+     print(f"level: {player.level}")
+     print(f"XP: {player.experience}")
+     print(f"health: {player.health}")
+     print(f"gold: {player.gold}")
+     print(f"inventory:")
+     if player.inventory:
+         for item in player.inventory:
+             print(f" {item}")
 
-    Level: 3
-    Gold: 500
-    Health: 80
+     else:
+         print(" Emoty")
 
-Close the program.
+while True:
+     print("1. Expelore\n2. Fight\n3. Buy Item\n4. Use potion\n5. Show character\n6. Exit")
+     choice = input("Choose an option: ")
+     if choice == "1":
+         expelore()
 
-Run #2:
+     if choice == "2":
+         fight()
 
-    Level: 3
-    Gold: 500
-    Health: 80
+     if choice == "3":
+         buy_item()
 
-The player must continue from the previous state.
-"""
+     if choice == "4":
+         use_potion()
+
+     if choice == "5":
+         show_character()
+
+     if choice == "6":
+         save_game()
+         print("Game saved. Goodbye!")
+         break
+
+     else:
+         print("invalid choice")
+
+          

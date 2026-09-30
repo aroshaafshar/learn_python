@@ -1,14 +1,18 @@
 import json
 from datetime import datetime
+
 FILENAME = "personal_wallet.json"
+
 try:
     with open(FILENAME, "r") as file:
         transactions = json.load(file)
 except FileNotFoundError:
     transactions = []
+
 def save_transactions():
    with open(FILENAME, "w") as file:
       json.dump(transactions, file, indent=4)
+
 def get_next_id():
    if not transactions:
       return 1
@@ -132,7 +136,7 @@ while True:
         for transaction in transactions:
            if transaction["id"] == transaction_id:
               transactions.remove(transaction)
-              save_transactions
+              save_transactions()
               print("transaction deleted successfully.")
 
               found = True

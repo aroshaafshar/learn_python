@@ -1,18 +1,23 @@
 import json
+
 students = {
 }
 FILE_NAME = "student.json"
+
+
 try:
     with open(FILE_NAME, "r") as file:
         students = json.load(file)
         students = {int(student_id): student for student_id, student in students.items()}
 except FileNotFoundError:
     students = {}
+
 def save_students():
     with open(FILE_NAME, "w") as file:
         json.dump(students, file, indent=4)
+
 while True:
-    print("1. add student\n2. add grade\n3. update grade\n4. show student report\n5. show all students\n6. find best student\7. delete student\8. exit")
+    print("1. add student\n2. add grade\n3. update grade\n4. show student report\n5. show all students\n6. find best student\n7. delete student\n8. exit")
     choice = input("enter your choice: ")
     if choice == "1":
         while True:
