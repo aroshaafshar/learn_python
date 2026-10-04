@@ -1,0 +1,13 @@
+[
+    {
+        "id": 2,
+        "name": "kazem",
+        "age": 26,
+        "department": "frontend",
+        "salary": 5800000,
+        "skills": [
+            "sql",
+            "python"
+        ]
+    }
+]
