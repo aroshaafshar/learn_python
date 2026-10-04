@@ -9,7 +9,7 @@ are stored separately.
 For example:
 
 - One file for configuration
-- One file for transactions
+- One file for transaction
 - One file for other application data
 
 The program should still automatically load everything

@@ -7,7 +7,7 @@ Build a more advanced expense tracking application.
 
 Each transaction should contain:
 
-- Transaction ID
+- transaction ID
 - Date
 - Amount
 - Type
@@ -16,10 +16,10 @@ Each transaction should contain:
 
 Menu:
 
-1. Add Transaction
-2. Delete Transaction
-3. Show Transactions
-4. Search Transactions
+1. Add transaction
+2. Delete transaction
+3. Show transaction
+4. Search transaction
 5. Monthly Report
 6. Category Report
 7. Date Range Report
@@ -48,14 +48,14 @@ Category report:
     Shopping:   3,000,000
     Bills:      5,000,000
 
-The user should be able to request transactions between two dates.
+The user should be able to request transaction between two dates.
 
 Example:
 
     From: 2026-09-01
     To:   2026-09-15
 
-Only transactions inside that range should be displayed.
+Only transaction inside that range should be displayed.
 
 The program should also support searching by category
 or description.
@@ -68,22 +68,22 @@ program restarts.
 import json
 from datetime import datetime
 
-TRANSACTION_FILE = "transactions.json"
+transaction_FILE = "transaction.json"
 
 try:
-     with open(TRANSACTION_FILE, "r") as file:
-        transactions = json.load(file)
+     with open(transaction_FILE, "r") as file:
+        transaction = json.load(file)
 except FileNotFoundError:
-     transactions = []
+     transaction = []
 
-def save_transactions():
-     with open(TRANSACTION_FILE, "w") as file:
-         json.dump(transactions, file, indent=4)
+def save_transaction():
+     with open(transaction_FILE, "w") as file:
+         json.dump(transaction, file, indent=4)
 
 def get_next_id():
-     if not transactions:
+     if not transaction:
          return 1
-     return max(transaction["id"] for transaction in transactions) + 1
+     return max(transaction["id"] for transaction in transaction) + 1
 
 def add_transaction():
      while True:
@@ -119,29 +119,29 @@ def add_transaction():
          "category": category,
          "description": description
      }
-     transactions.append(transaction)
-     save_transactions()
-     print("Transaction added successfully!")
+     transaction.append(transaction)
+     save_transaction()
+     print("transaction added successfully!")
 
 def delete_transaction():
-     transaction_id = int(input("Transaction ID: "))
+     transaction_id = int(input("transaction ID: "))
      found = False
 
-     for transaction in transactions:
+     for transaction in transaction:
          if transaction["id"] == transaction_id:
-             transactions.remove(transaction)
-             save_transactions
-             print("Transaction deleted successfully!")
+             transaction.remove(transaction)
+             save_transaction
+             print("transaction deleted successfully!")
              return
-     print("Transaction not found.")
+     print("transaction not found.")
 
-def show_transactions():
-     if not transactions:
+def show_transaction():
+     if not transaction:
          print("No transaction found.")
          return
 
      else:
-         for transaction in transactions:
+         for transaction in transaction:
              print("--------------------")
              print("ID:", transaction["id"])
              print("Date:", transaction["date"])
@@ -153,7 +153,7 @@ def show_transactions():
 def search_transactionns():
      srarch = input("Search category or description: ").lower()
      found = False
-     for transaction in transactions:
+     for transaction in transaction:
          if search in transaction["category"].lower() or search in transaction["description"]:
              print("--------------------")
              print("ID:", transaction["id"])
@@ -165,13 +165,13 @@ def search_transactionns():
 
              found = True
          if not found:
-             print("No transactions found.")
+             print("No transaction found.")
 
 def monthly_report():
      month = input("Enter month (YYYY_MM): ")
      income = 0
      expence = 0
-     for transaction in transactions:
+     for transaction in transaction:
          if transaction["date"].startswith(month):
              if transaction["type"].lower() == "income":
                  income += transaction["amount"]
@@ -186,7 +186,7 @@ def monthly_report():
 
 def category_report():
      categories = {}
-     for transaction in transactions:
+     for transaction in transaction:
          if transaction["type"].lower() == "expence":
              category = transaction["category"]
 
@@ -201,7 +201,7 @@ def date_range_report():
      from_date = input("From: ")
      to_date = input("To: ")
      found = False
-     for transaction in transactions:
+     for transaction in transaction:
          if from_date <= transaction["date"]:
              print("--------------------")
              print("ID:", transaction["id"])
@@ -213,15 +213,15 @@ def date_range_report():
              
              found = True
      if not found:
-         print("No transactions found.")
+         print("No transaction found.")
              
 
 while True:
      print("""
      1. Add transaction
      2. Delete transaction
-     3. Show transactions
-     4. Search transactions
+     3. Show transaction
+     4. Search transaction
      5. Monthly report
      6. Category report
      7. Date range report
@@ -236,7 +236,7 @@ while True:
          delete_transaction()
 
      elif choice == "3":
-         show_transactions()
+         show_transaction()
 
      elif choice == "4":
          search_transactionns()

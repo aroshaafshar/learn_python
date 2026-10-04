@@ -27,7 +27,7 @@ Example:
 
     Add Expense
     Add Income
-    Delete Transaction
+    Delete transaction
 
     Undo
     Undo

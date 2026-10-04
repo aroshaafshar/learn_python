@@ -4,11 +4,11 @@ FILE_NAME = "bank.json"
 
 
 class Account:
-    def __init__(self, account_id, owner, balance=0, transactions=None):
+    def __init__(self, account_id, owner, balance=0, transaction=None):
         self.account_id = account_id
         self.owner = owner
         self.balance = balance
-        self.transactions = transactions if transactions is not None else []
+        self.transaction = transaction if transaction is not None else []
 
     def deposit(self, amount):
         if amount <= 0:
@@ -17,7 +17,7 @@ class Account:
 
         self.balance += amount
 
-        self.transactions.append({
+        self.transaction.append({
             "type": "deposit",
             "amount": amount,
             "balance": self.balance
@@ -36,7 +36,7 @@ class Account:
 
         self.balance -= amount
 
-        self.transactions.append({
+        self.transaction.append({
             "type": "withdraw",
             "amount": amount,
             "balance": self.balance
@@ -60,7 +60,7 @@ class Bank:
                     account["account_id"],
                     account["owner"],
                     account["balance"],
-                    account["transactions"]
+                    account["transaction"]
                 )
 
                 self.accounts.append(new_account)
@@ -80,7 +80,7 @@ class Bank:
                 "account_id": account.account_id,
                 "owner": account.owner,
                 "balance": account.balance,
-                "transactions": account.transactions
+                "transaction": account.transaction
             })
 
         with open(FILE_NAME, "w") as file:
@@ -179,14 +179,14 @@ class Bank:
         sender.balance -= amount
         receiver.balance += amount
 
-        sender.transactions.append({
+        sender.transaction.append({
             "type": "transfer_sent",
             "to": receiver.account_id,
             "amount": amount,
             "balance": sender.balance
         })
 
-        receiver.transactions.append({
+        receiver.transaction.append({
             "type": "transfer_received",
             "from": sender.account_id,
             "amount": amount,
@@ -218,13 +218,13 @@ class Bank:
             print("Invalid account ID.")
             return
 
-        print(f"\nTransaction history for {account.owner}:")
+        print(f"\ntransaction history for {account.owner}:")
 
-        if not account.transactions:
-            print("No transactions.")
+        if not account.transaction:
+            print("No transaction.")
             return
 
-        for transaction in account.transactions:
+        for transaction in account.transaction:
             print(transaction)
 
     def show_all_accounts(self):
@@ -250,7 +250,7 @@ def main():
         print("3. Withdraw")
         print("4. Transfer Money")
         print("5. Show Balance")
-        print("6. Show Transaction History")
+        print("6. Show transaction History")
         print("7. Show All Accounts")
         print("8. Exit")
 
