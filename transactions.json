@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "date": "2026-10-10",
+        "type": "expence",
+        "amount": 5000,
+        "category": "food",
+        "description": "lunch"
+    },
+    {
+        "id": 2,
+        "date": "2026-10-10",
+        "type": "income",
+        "amount": 2600000,
+        "category": "salary",
+        "description": "monyhly salary"
+    }
+]
