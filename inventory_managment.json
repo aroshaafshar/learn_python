@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "milk",
+        "price": 5000,
+        "quantity": 15,
+        "category": "food"
+    },
+    {
+        "id": 2,
+        "name": "icecream",
+        "price": 60000,
+        "quantity": 17,
+        "category": "food"
+    }
+]

@@ -10,7 +10,7 @@ while True:
         user = {
             "name": name,
             "balance": balance,
-            "transactions": []
+            "transaction": []
         }
 
         users.append(user)
@@ -29,7 +29,7 @@ for user in users:
                 "1. Deposit\n"
                 "2. Withdraw\n"
                 "3. Transfer\n"
-                "4. Transaction history\n"
+                "4. transaction history\n"
                 "5. Account information\n"
                 "6. Exit\n"
             )
@@ -39,7 +39,7 @@ for user in users:
 
                 if amount > 0:
                     user["balance"] += amount
-                    user["transactions"].append(f"+{amount} deposit")
+                    user["transaction"].append(f"+{amount} deposit")
 
                 elif amount <= 0:
                     print("Invalid amount")
@@ -49,7 +49,7 @@ for user in users:
 
                 if amount > 0 and amount <= user["balance"]:
                     user["balance"] -= amount
-                    user["transactions"].append(f"-{amount} withdraw")
+                    user["transaction"].append(f"-{amount} withdraw")
 
                 elif amount <= 0:
                     print("Invalid amount")
@@ -73,11 +73,11 @@ for user in users:
                                 user["balance"] -= amount
                                 receiver["balance"] += amount
 
-                                user["transactions"].append(
+                                user["transaction"].append(
                                     f"-{amount} transfer to {receiver['name']}"
                                 )
 
-                                receiver["transactions"].append(
+                                receiver["transaction"].append(
                                     f"+{amount} transfer from {user['name']}"
                                 )
 
@@ -94,7 +94,7 @@ for user in users:
                     print("User not found")
 
             elif choice == "4":
-                for transaction in user["transactions"]:
+                for transaction in user["transaction"]:
                     print(transaction)
 
             elif choice == "5":

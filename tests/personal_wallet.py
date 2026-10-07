@@ -1,18 +1,22 @@
 import json
 from datetime import datetime
+
 FILENAME = "personal_wallet.json"
+
 try:
     with open(FILENAME, "r") as file:
-        transactions = json.load(file)
+        transaction = json.load(file)
 except FileNotFoundError:
-    transactions = []
-def save_transactions():
+    transaction = []
+
+def save_transaction():
    with open(FILENAME, "w") as file:
-      json.dump(transactions, file, indent=4)
+      json.dump(transaction, file, indent=4)
+
 def get_next_id():
-   if not transactions:
+   if not transaction:
       return 1
-   return max(transaction["id"] for transaction in transactions) + 1
+   return max(transaction["id"] for transaction in transaction) + 1
 
 while True:
      print("1.add income\n2. add expense\n3. show balance\n4. show transaction\n5. search transaction\n6. show statistics\n7. delete transaction\n8. exit ")
@@ -30,8 +34,8 @@ while True:
          "descrioption": description,
          "date": date
       }
-      transactions.append(transaction)
-      save_transactions()
+      transaction.append(transaction)
+      save_transaction()
       print("income added successfully.")
      elif choice == "2":
         amount = int(input("enter amount: "))
@@ -46,18 +50,18 @@ while True:
            "description": description,
            "date": date
         }
-        transactions.append(transaction)
-        save_transactions()
+        transaction.append(transaction)
+        save_transaction()
         print("expense added successgully.")
      elif choice == "3":
          total_income = sum(
            transaction["amount"]
-           for transaction in transactions
+           for transaction in transaction
            if transaction["type"] == "income"
         )
          total_expenses = sum(
             transaction["amount"]
-            for transaction in transactions
+            for transaction in transaction
             if transaction["type"] == "expense"
         )
          balance = total_income - total_expenses
@@ -66,10 +70,10 @@ while True:
          print(f"balance: {balance:,}")
 
      elif choice == "4":
-        if not transactions:
+        if not transaction:
            print("no transaction found.")
         else:
-           for transaction in transactions:
+           for transaction in transaction:
               print("--------------------")
               print(f"id: {transaction["id"]}")
               print(f"amount: {transaction["amount"]}")
@@ -83,7 +87,7 @@ while True:
            "search by amount, category or description:"
         ).lower()
         found = False
-        for transaction in transactions:
+        for transaction in transaction:
            if(
               search in str(transaction["amount"])
               or search in transaction["category"].lower()
@@ -98,17 +102,17 @@ while True:
               print(f"date: {transaction["date"]}")
               found = True
         if not found:
-           print("no matching transactions found.")
+           print("no matching transaction found.")
 
      elif choice == "6":
         total_income = sum(
            transaction["amount"]
-           for transaction in transactions
+           for transaction in transaction
            if transaction['type'] == "income"
         )
         total_expenses = sum(
            transaction["amount"]
-           for transaction in transactions
+           for transaction in transaction
            if transaction['type'] == "expense"
         )
         print(f"total income: {total_income:,}")
@@ -117,7 +121,7 @@ while True:
 
         print("\ncategory statistics:")
         categories = {}
-        for transaction in transactions:
+        for transaction in transaction:
            category = transaction["category"]
            if category not in categories:
               categories[category] = 0
@@ -129,10 +133,10 @@ while True:
      elif choice == "7":
         transaction_id = int(input("enter transaction id: "))
         found = False
-        for transaction in transactions:
+        for transaction in transaction:
            if transaction["id"] == transaction_id:
-              transactions.remove(transaction)
-              save_transactions
+              transaction.remove(transaction)
+              save_transaction()
               print("transaction deleted successfully.")
 
               found = True

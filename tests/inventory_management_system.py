@@ -1,70 +1,124 @@
-# ============================================================
-# PROJECT 3 - INVENTORY MANAGEMENT SYSTEM
-# ============================================================
+import json
 
-"""
-Build a small inventory management application.
+FILENAME = "inventory_managment.json"
 
-Menu:
+try:
+    with open(FILENAME, "r") as file:
+        products = json.load(file)
+except FileNotFoundError:
+    products = []
 
-1. Add Product
-2. Remove Product
-3. Increase Stock
-4. Decrease Stock
-5. Show All Products
-6. Search Product
-7. Show Low Stock Products
-8. Show Inventory Value
-9. Exit
+def save_products():
+    with open(FILENAME, "w") as file:
+        json.dump(products, file, indent=4)
 
-Each product should contain at least:
+def get_next_id():
+    if not products:
+        return 1
+    return max(product["id"] for product in products) + 1
 
-- Product ID
-- Name
-- Price
-- Quantity
-- Category
+while True:
+     print("1. add product\n2. remove product\n3. increase stock\n4. decrease stock\n5. show all products\n6. search product\n7. show low stock product\n8. show inventory value\n9. exit")
+     choice = input("enter your choice: ")
+     if choice == "1":
+         product_id = get_next_id()
+         name = input("enter name product: ")
+         price = int(input("enter price: "))
+         quantity = int(input("quantity: "))
+         category = input("enter category: ")
+         product = {
+             "id": product_id,
+             "name": name,
+             "price": price,
+             "quantity": quantity,
+             "category": category
+         }
+         products.append(product)
+         save_products()
+         print("product added successfully.")
+         print(f"product id: {product_id}")
 
-Example:
+     elif choice == "2":
+         product_id = int(input("enter product id: "))
+         for product in products:
+             if product["id"] == product_id:
+                 products.remove(product)
+                 save_products()
+                 print("product removed successfully.")
+             if not found:
+                 print("product not found.")
 
-    ID: 15
-    Name: Keyboard
-    Price: 2,500,000
-    Quantity: 7
-    Category: Computer
+     elif choice == "3":
+         product_id = int(input("enter product id: "))
+         amount = int(input("enter amount: "))
+         found = False
+         for product in products:
+             if product["id"] == product_id:
+                 product["quantity"] += amount
+                 found = True
+                 save_products()
+                 print("stock increased successfully.")
+                 break
+             if not found:
+                 print("product not found.")
 
-Requirements:
+     elif choice == "4":
+         product_id = int(input("enter product id: "))
+         amount = int(input("enter amount: "))
+         found = False
+         for product in products:
+             if product["id"] == product_id:
+                 found = True
+                 if product["quantity"] >= amount:
+                    product["quantity"] -= amount
+                    save_products()
+                    print("stock decreased successfully.")
+                 else:
+                     print("not enough stock.")
+                     break
+             if not found:
+                 print("product not found.") 
 
-- Product IDs must be unique.
-- A product can be added.
-- A product can be removed.
-- Stock can be increased.
-- Stock can be decreased.
-- The stock quantity can never become negative.
-- A product cannot be removed if it does not exist.
-- Products can be searched.
-- Products can be filtered by category.
-- Low-stock products should be displayed.
+     elif choice == "5":
+         for product in products:
+             print(product)
 
-The user should be able to define what "low stock" means.
+     elif choice == "6":
+         search_type = input("search by (id/name/category):" )
+         search_value = input("enter search value: ")
+         found = False
+         for product in products:
+             if search_type == "id":
+                 if product["id"] == int(search_value):
+                     print(product)
+                     found = True
+             elif search_type == "name":
+                 if search_value.lower() in product["name"].lower():
+                     print(product)
+                     found = True
+             elif search_type == "category":
+                 if search_value.lower() in product["category"].lower():
+                     print(product)
+                     found = True
+         if not found:
+             print("product not found.")
+                 
+     elif choice == "7":
+         threshold = int(input("enter low stock threshold: "))
+         for product in products:
+             if product["quantity"] <= threshold:
+                 print(product)
+                 found = True
+         if not found:
+             print("no low stock product.")
 
-For example:
-
-    Quantity <= 5
-
-The program must also calculate the total value of the inventory.
-
-Example:
-
-    Keyboard: 7 × 2,500,000
-    Mouse:    10 × 1,200,000
-
-    Total Inventory Value: 29,500,000
-
-Persistence requirement:
-
-Products and their current stock levels must be saved to a file.
-
-After restarting the program, all products must still exist
-with their latest quantities.
-"""
+     elif choice == "8":
+         total_value = 0
+         for product in products:
+             total_value += product["price"] * product["quantity"]
+             print(f"total inventory value: {total_value}")
+     elif choice == "9":
+         print("Goodbye!")
+         break
+     else:
+         print("invalid choice. ")

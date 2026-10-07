@@ -121,7 +121,7 @@ Build a personal wallet application.
 Focus on:
 
 * Income and expenses
-* Transactions
+* transaction
 * Calculating balances
 * Filtering
 * Searching
@@ -168,11 +168,11 @@ Build a simple banking system.
 Focus on:
 
 * Multiple accounts
-* Transactions
+* transaction
 * Money transfers
 * Validation
 * State changes
-* Transaction history
+* transaction history
 * Persistent state
 
 Pay special attention to what happens when an operation fails halfway through.
@@ -273,7 +273,7 @@ You should be able to manage:
 * Income
 * Expenses
 * Transfers
-* Transactions
+* transaction
 * Categories
 * Reports
 * Monthly statistics
