@@ -1,0 +1,46 @@
+{
+    "transactions": [
+        {
+            "id": 2,
+            "amount": 50000,
+            "type": "expence",
+            "category": "food",
+            "description": "lunch",
+            "date": "2026-10-04"
+        },
+        {
+            "id": 3,
+            "amount": 50000,
+            "type": "transfer",
+            "category": "saving",
+            "description": "monthly saving",
+            "date": "2026-10-04"
+        },
+        {
+            "id": 4,
+            "amount": 20000,
+            "type": "expence",
+            "category": "food",
+            "description": "dinner",
+            "date": "2026-10-04"
+        },
+        {
+            "id": 5,
+            "amount": 50000,
+            "type": "expence",
+            "category": "food",
+            "description": "lunch",
+            "date": "2026-10-07"
+        },
+        {
+            "id": 6,
+            "amount": 1000000,
+            "type": "income",
+            "category": "salary",
+            "description": "test",
+            "date": "2026-10-07"
+        }
+    ],
+    "config": {},
+    "app_data": {}
+}

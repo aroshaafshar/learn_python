@@ -101,22 +101,113 @@ Reports should be generated from the stored transaction.
 The choice of data structures and file format is completely up to you.
 """
 import json
-
+import os
 from copy import deepcopy
 
-FILENAME = "transactions.json"
+TRANSACTION_FILE = "transactions.json"
+CONFIG_FILE = "config.json"
+APP_DATA_FILE = "app_data.json"
+BACKUP_FILE = "backup.json"
+
+def save_transactions():
+     with open(TRANSACTION_FILE, "w") as file:
+         json.dump(transactions, file, indent=4)
+
+def save_config():
+     with open(CONFIG_FILE, "w") as file:
+         json.dump(config, file, indent=4)
+
+def save_app_data():
+     with open(APP_DATA_FILE, "w") as file:
+         json.dump(app_data, file, indent=4)
+
+def create_backup():
+     backup = {
+         "transactions": transactions,
+         "config": config,
+         "app_data": app_data
+     }
+
+     with open(BACKUP_FILE, "w") as file:
+         json.dump(backup, file, indent=4)
+
+     print("Backup created successfully.")
+
+def restore_backup():
+     if not os.path.exists(BACKUP_FILE):
+         print("No backup found.")
+         return
+
+     try:
+         with open(BACKUP_FILE, "r") as file:
+             backup = json.load(file)
+
+         if not isinstance(backup, dict):
+             print("Invalid backup.")
+             return
+
+         if "transactions" not in backup:
+             print("Invalid backup.")
+             return
+
+         if "config" not in backup:
+             print("Invalid backup.")
+             return
+
+         if "app_data" not in backup:
+             print("Invalid backup.")
+             return
+
+         if not isinstance(backup["transactions"], list):
+             print("Invalid backup.")
+             return
+
+         if not isinstance(backup["config"], dict):
+             print("Invalid backup")
+             return
+
+         if not isinstance(backup["app_data"], dict):
+             print("Invalid backup")
+             return
+
+         transactions.clear()
+         transactions.extend(deepcopy(backup["transactions"]))
+
+         config.clear()
+         config.update(deepcopy(backup["config"]))
+
+         app_data.clear()
+         app_data.update(deepcopy(backup["app_data"]))
+
+         save_transactions()
+         save_config()
+         save_app_data()
+
+         print("Backup restored successfully.")
+     except (json.JSONDecodeError, OSError):
+         print("Invalid or broken backup.")
 
 try:
-     with open(FILENAME, "r") as file:
+     with open(TRANSACTION_FILE, "r") as file:
          transactions = json.load(file)
 except FileNotFoundError:
      transactions = []
 
-history = []
+try:
+     with open(CONFIG_FILE, "r") as file:
+         config = json.load(file)
+except FileNotFoundError:
+     config = {}
+     save_config()
 
-def save_transactions():
-     with open(FILENAME, "w") as file:
-         json.dump(transactions, file, indent=4)
+try:
+     with open(APP_DATA_FILE, "r") as file:
+         app_data = json.load(file)
+except FileNotFoundError:
+     app_data = {}
+     save_app_data()
+
+history = []
 
 def get_next_id():
      if not transactions:
@@ -350,7 +441,9 @@ while True:
      10. Date range report
      11. Delete transaction
      12. Undo
-     13. Exit
+     13. Create backup
+     14. Restore backup
+     15. Exit
      """)
      
      choice = input("chose: ")
@@ -392,6 +485,12 @@ while True:
          undo()
 
      elif choice == "13":
+         create_backup()
+
+     elif choice == "14":
+         restore_backup()
+
+     elif choice == "15":
          print("Goodbye.")
          break
 
