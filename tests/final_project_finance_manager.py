@@ -102,6 +102,8 @@ The choice of data structures and file format is completely up to you.
 """
 import json
 
+from copy import deepcopy
+
 FILENAME = "transactions.json"
 
 try:
@@ -109,6 +111,8 @@ try:
          transactions = json.load(file)
 except FileNotFoundError:
      transactions = []
+
+history = []
 
 def save_transactions():
      with open(FILENAME, "w") as file:
@@ -120,6 +124,8 @@ def get_next_id():
      return max(transaction["id"] for transaction in transactions) + 1
 
 def add_income():
+     history.append(deepcopy(transactions))
+
      amount = int(input("Amount: "))
      category = input("Category: ")
      description = input("Description: ")
@@ -138,6 +144,8 @@ def add_income():
      print("Income added successfully.")
 
 def add_expence():
+     history.append(deepcopy(transactions))
+
      amount = int(input("Amount: "))
      category = input("Category: ")
      description = input("Description: ")
@@ -156,6 +164,8 @@ def add_expence():
      print("Expence added successfully.")
 
 def transfer_money():
+     history.append(deepcopy(transactions))
+
      amount = int(input("Amount: "))
      category = input("Category: ")
      description = input("Description: ")
@@ -300,11 +310,25 @@ def date_range_report():
      print(f"Expence: {total_expences:,}")
      print(f"Balance: {balance:,}")
 
+def undo():
+     if history:
+         previous_satate = history.pop()
+
+         transactions.clear()
+         transactions.extend(previous_satate)
+
+         save_transactions
+         print("Last operation undone.")
+     else:
+         print("Nothing to undo.")
+
 def delete_transaction():
      transaction_id = int(input("transaction ID: "))
 
      for transaction in transactions:
          if transaction["id"] == transaction_id:
+             history.append(deepcopy(transactions))
+
              transactions.remove(transaction)
              save_transactions()
              print("transaction deleted successfully.")
@@ -325,7 +349,8 @@ while True:
      9. Category report
      10. Date range report
      11. Delete transaction
-     12. Exit
+     12. Undo
+     13. Exit
      """)
      
      choice = input("chose: ")
@@ -364,6 +389,9 @@ while True:
          delete_transaction()
 
      elif choice == "12":
+         undo()
+
+     elif choice == "13":
          print("Goodbye.")
          break
 
